@@ -1,0 +1,14 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 2147483600
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+match_indent = true
+pattern = '''--cull the pool'''
+position = 'before'
+payload = '''_starting_pool = hamod_chaos_voucher(_type, _starting_pool)'''
+times = 1
+

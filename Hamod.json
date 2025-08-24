@@ -1,0 +1,13 @@
+{
+  "id": "Hamod",
+  "name": "Hamod",
+  "display_name": "Hamod",
+  "author": ["Hametsu"],
+  "description": "Simple first mod",
+  "prefix": "hamod",
+  "main_file": "Hamod.lua",
+  "priority": 0,
+  "badge_colour": "56435c",
+  "version": "1.0",
+  "dependencies": ["Steamodded (>=1.0.0~BETA-0711a)"]
+}
