@@ -5,7 +5,7 @@ SMODS.Joker {
     rarity = 3,
     blueprint_compat = true,
     cost = 10,
-    config = { extra = { chips = 15 }, },
+    config = { extra = { chips = 5 }, },
     discovered = true,
     loc_vars = function(self, info_queue, card)
         local obj = hamod_most_played_hand()

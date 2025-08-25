@@ -39,7 +39,6 @@ SMODS.Seal {
         end
 
         if context.end_of_round and context.cardarea == G.hand and context.other_card == card then
-            HAMOD.debug("Resetting")
             card.ability.seal.extra.XMult = card.ability.seal.extra.XMult_base
             return {
                 message = localize('k_high_roller_destroy', card, G.C.RED)
@@ -47,7 +46,6 @@ SMODS.Seal {
         end
 
         if context.discard and context.other_card == card then
-            HAMOD.debug("Resetting")
             card.ability.seal.extra.XMult = card.ability.seal.extra.XMult_base
         end
     end

@@ -12,3 +12,16 @@ position = 'before'
 payload = '''_starting_pool = hamod_chaos_voucher(_type, _starting_pool)'''
 times = 1
 
+[[patches]]
+[patches.pattern]
+target = '''=[SMODS _ "src/game_object.lua"]'''
+match_indent = false
+pattern = '''
+create_UIBox = function(self)
+'''
+position = 'after'
+payload = '''
+local hamod_chaos = hamod_create_UIBox and hamod_create_UIBox(self)
+if hamod_chaos then return hamod_chaos end
+'''
+times = 1

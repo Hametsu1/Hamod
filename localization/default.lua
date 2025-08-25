@@ -120,6 +120,12 @@ return {
                     "All {C:attention}Consumables{} now share",
                     "the same item pool"
                 }
+            },
+            v_hamod_mayhem = {
+                name = 'Mayhem',
+                text = {
+                    "{C:green}+#1#{} to {C:attention}Booster rerolls{}" 
+                }
             }
         },
         Other = {
@@ -194,6 +200,14 @@ return {
                     "Choose {C:attention}#1#{} of up to",
                     "{C:attention}#2#{C:enhanced} Vouchers{}",
                 },
+            },
+            tt_booster_reroll = {
+                name = 'Booster reroll',
+                text = {
+                    'Use {C:attention}Reroll{} or {C:attention}Redraw{} when opening',
+                    "a {C:tarot}Booster{} to reroll it's contents or swap your",
+                    'hand cards. Rerolls reset at the start of each {C:attention}Ante{}'
+                }
             }
         },
     },

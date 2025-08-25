@@ -16,21 +16,42 @@ SMODS.Voucher {
         return { vars = { } }
     end,
     redeem = function(self, card)
-        --[[ for k,v in pairs(G.P_CENTER_POOLS['Booster']) do
-            v.create_UIBox_old = v.create_UIBox
-            v.create_UIBox = function(self)
-                if HAMOD.has_voucher('v_hamod_chaos') and HAMOD.chaos.rerolls > 0 then
-                    return HAMOD.create_UIBox(self)
-                else
-                    return v.create_UIBox_old(self)
-                end
-            end
-        end ]]
     end,
     in_pool = function(self, args)
         return false
     end
 }
+
+SMODS.Voucher {
+    key = 'mayhem',
+    pos = { x = 0, y = 0 },
+    config = { extra = { rerolls = 1 } },
+    unlocked = true,
+    discovered = true,
+    atlas = 'HamodVouchers',
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue+1] = {key = "tt_booster_reroll", set = "Other"}
+        return { vars = {card.ability.extra.rerolls } }
+    end,
+    redeem = function(self, card)
+        if not G.GAME.chaos then G.GAME.chaos = {rerolls_max = 0, rerolls_left = 0} end
+
+        add_booster_rerolls(card.ability.extra.rerolls)
+    end,
+    in_pool = function(self, args)
+        return true
+    end
+}
+
+function add_booster_rerolls(amount)
+    if amount == 0 then return end
+    
+    G.GAME.chaos.rerolls_max = G.GAME.chaos.rerolls_max + amount
+    if G.GAME.chaos.rerolls_max < 0 then G.GAME.chaos.rerolls_max = 0 end
+
+    if G.GAME.chaos.rerolls_left > G.GAME.chaos.rerolls_max then G.GAME.chaos.rerolls_left = G.GAME.chaos.rerolls_max
+    elseif amount > 0 then G.GAME.chaos.rerolls_left = G.GAME.chaos.rerolls_left + amount end
+end
 
 
 -- Credits to betmma: https://github.com/betmma
@@ -56,6 +77,7 @@ function G.UIDEF.use_and_sell_buttons(card)
     end
     return G_UIDEF_use_and_sell_buttons_ref(card)
 end
+
 G.FUNCS.can_reserve_card = function(e)
 
     if #G.consumeables.cards < G.consumeables.config.card_limit then 
@@ -67,6 +89,7 @@ G.FUNCS.can_reserve_card = function(e)
     end
 
 end
+
 G.FUNCS.reserve_card = function(e) -- only works for consumeables
     local c1 = e.config.ref_table
     G.E_MANAGER:add_event(Event({
@@ -91,10 +114,9 @@ G.FUNCS.reserve_card = function(e) -- only works for consumeables
 end
 --
 
-HAMOD.chaos = {rerolls = 1}
+hamod_create_UIBox = function(self)
+    if not G.GAME.chaos or not G.GAME.chaos.rerolls_max or G.GAME.chaos.rerolls_max == 0 then return false end
 
-HAMOD.create_UIBox = function(self)
-    HAMOD.debug('Pack triggered')
     local _size = math.max(1, SMODS.OPENED_BOOSTER.ability.extra + (G.GAME.modifiers.booster_size_mod or 0))
     G.pack_cards = CardArea(
         G.ROOM.T.x + 9 + G.hand.T.x, G.hand.T.y,
@@ -120,11 +142,178 @@ HAMOD.create_UIBox = function(self)
                             {n=G.UIT.O, config={object = DynaText({string = {localize('k_choose')..' '}, colours = {G.C.WHITE},shadow = true, rotate = true, bump = true, spacing =2, scale = 0.5, pop_in = 0.7})}},
                             {n=G.UIT.O, config={object = DynaText({string = {{ref_table = G.GAME, ref_value = 'pack_choices'}}, colours = {G.C.WHITE},shadow = true, rotate = true, bump = true, spacing =2, scale = 0.5, pop_in = 0.7})}}}},}}
                 }),}},
-            {n=G.UIT.C,config={align = "tm", padding = 0.05, minw = 2.4}, nodes={
-                {n=G.UIT.R,config={minh =0.2}, nodes={}},
-                {n=G.UIT.R,config={align = "tm",padding = 0.2, minh = 1.2, minw = 1.8, r=0.15,colour = G.C.GREY, one_press = true, button = 'skip_booster', hover = true,shadow = true, func = 'can_skip_booster'}, nodes = {
-                    {n=G.UIT.T, config={text = localize('b_skip'), scale = 0.5, colour = G.C.WHITE, shadow = true, focus_args = {button = 'y', orientation = 'bm'}, func = 'set_button_pip'}}}},
-                {n=G.UIT.R,config={align = "tm",padding = 0.2, minh = 1.2, minw = 1.8, r=0.15,colour = G.C.RED, one_press = true, button = 'skip_booster', hover = true,shadow = true, func = 'can_skip_booster'}, nodes = {
-                    {n=G.UIT.T, config={text = localize('b_skip'), scale = 0.5, colour = G.C.RED, shadow = true, focus_args = {button = 'y', orientation = 'bm'}, func = 'set_button_pip'}}}}}}}}}}}}
+            {n=G.UIT.C,config={align = "tm", padding = 0.05, minw = 4.8}, nodes={ -- breitere Spalte
+    {n=G.UIT.R,config={minh =0.2}, nodes={}}, -- Spacer oben
+    {n=G.UIT.R,config={align = "cm", padding = 0.1}, nodes={
+        -- Skip-Button (links)
+        {n=G.UIT.C,config={align = "cm", padding = 0.1}, nodes={
+            {n=G.UIT.R,config={align = "tm",padding = 0.2, minh = 1.2, minw = 1.8, r=0.15,colour = G.C.GREY, one_press = true, button = 'skip_booster', hover = true,shadow = true, func = 'can_skip_booster'}, nodes = {
+                {n=G.UIT.T, config={text = localize('b_skip'), scale = 0.5, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}}
+            }}
+        }},
+        -- Neuer Button (rechts)
+                
+            
+        {n=G.UIT.C,config={align = "cm", padding = 0}, 
+            nodes=
+            {
+                {n=G.UIT.C,config={align = "cm", padding = 0},
+                    nodes = {
+                        -- Reroll pack button
+                        {
+                            n=G.UIT.R,
+                            config={
+                                ref_table = self,
+                                align = "tm",
+                                padding = 0.15,
+                                minh = 0.30,
+                                minw = 1.55,
+                                r=0.15,
+                                colour = G.C.RED,
+                                one_press = false,
+                                button = 'reroll_pack',
+                                hover = true,
+                                shadow = true,
+                                func = 'can_reroll_pack'
+                            }, 
+                            nodes = {
+                                {
+                                    n=G.UIT.R,
+                                    config={align = "cm", maxw = 1.3},
+                                    nodes={
+                                        {
+                                            n=G.UIT.T,
+                                            config={text = localize('k_reroll'), scale = 0.4, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}
+                                        },
+                                    }
+                                },
+                            --[[ {n=G.UIT.R, config={align = "cm", maxw = 1.3}, nodes={
+                                {n=G.UIT.T, config={ref_table = HAMOD.chaos, ref_value = 'rerolls', scale = 0.3, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}}
+                            }} ]]
+                            }
+                        },
+                        -- Redraw hand button
+                        {
+                            n=G.UIT.R,
+                            config={
+                                ref_table = self,
+                                align = "tm",
+                                padding = 0.15,
+                                minh = 0.30,
+                                minw = 1.55,
+                                r=0.15,
+                                colour = G.C.RED,
+                                one_press = false,
+                                button = 'redraw_hand',
+                                hover = true,
+                                shadow = true,
+                                func = 'can_redraw_hand'
+                            }, 
+                            nodes = {
+                                {
+                                    n=G.UIT.R,
+                                    config={align = "cm", maxw = 1.3},
+                                    nodes={
+                                        {
+                                            n=G.UIT.T,
+                                            config={text = 'Redraw', scale = 0.4, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}
+                                        },
+                                    }
+                                },
+                            }
+                        },
+                    }
+                },
+                -- Display rerolls remaining
+                {n=G.UIT.C,config={align = "cm", padding = 0.2},
+                    nodes = {
+                        {n=G.UIT.R, config={align = "cm", maxw = 1.3},
+                            nodes=
+                            {
+                                {n=G.UIT.T, config={ref_table = G.GAME.chaos, ref_value = 'rerolls_left', scale = 0.4, colour = G.C.WHITE, shadow = true, func = 'set_button_pip'}}
+                            }
+                        }
+                    }
+                }
+            }             
+        },
+    }}
+}}}}}}}}
     return t
+end
+
+G.FUNCS.can_reroll_pack = function(e)
+
+    if G.pack_cards and (G.pack_cards.cards[1]) and G.GAME.chaos.rerolls_left > 0 then 
+        e.config.colour = G.C.GREEN
+        e.config.button = 'reroll_pack' 
+    else
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+
+end
+
+G.FUNCS.reroll_pack = function(e) -- only works for consumeables
+    stop_use()
+    local c1 = e.config.ref_table
+    G.GAME.chaos.rerolls_left = G.GAME.chaos.rerolls_left - 1
+    G.E_MANAGER:add_event(Event({
+        trigger = 'immediate',
+        func = function()
+            local card_count = #G.pack_cards.cards
+            for i = #G.pack_cards.cards,1, -1 do
+                local c = G.pack_cards:remove_card(G.pack_cards.cards[i])
+                c:remove()
+                c = nil
+            end
+
+            play_sound('other1')
+            
+            for i = 1, card_count do
+                local _card_to_spawn = c1:create_card(self, i)
+                local card
+
+                if type((_card_to_spawn or {}).is) == 'function' and _card_to_spawn:is(Card) then
+                    card = _card_to_spawn
+                else
+                    card = SMODS.create_card(_card_to_spawn)
+                end
+
+                G.pack_cards:emplace(card)
+                card:juice_up()
+            end
+            return true
+        end
+    }))  
+end
+
+G.FUNCS.can_redraw_hand = function(e)
+
+    if #G.hand.cards > 0 and G.pack_cards and (G.pack_cards.cards[1]) and G.GAME.chaos.rerolls_left > 0 then 
+        e.config.colour = G.C.PALE_GREEN
+        e.config.button = 'redraw_hand' 
+    else
+        e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        e.config.button = nil
+    end
+
+end
+
+G.FUNCS.redraw_hand = function(e) -- only works for consumeables
+    stop_use()
+    local c1 = e.config.ref_table
+    local card_count = #G.hand.cards
+    G.GAME.chaos.rerolls_left = G.GAME.chaos.rerolls_left - 1
+    
+    G.FUNCS.draw_from_hand_to_deck()
+    
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.35,
+        func = function()
+            G.FUNCS.draw_from_deck_to_hand(card_count)
+            return true
+        end
+    }))
 end
