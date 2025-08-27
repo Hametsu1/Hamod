@@ -1,5 +1,13 @@
 return {
     descriptions = {
+        Back = {
+            b_hamod_booster_reroll_reroll = {
+                name = "Reroll Deck",
+                text = {
+                    "Start with {C:green}+1{} {C:attention}Booster Reroll{}"
+                }
+            }
+        },
         Planet = {
             c_hamod_planet0711B = {
                 name = "Planet O711-B",
@@ -41,10 +49,10 @@ return {
             j_hamod_color_rush = {
                 name = "Color Rush",
                 text = {
-                    "Played cards give {C:white,X:mult}X#1#{} Mult",
+                    "Played cards each give {C:white,X:mult}X#1#{} Mult",
                     "if played hand is a {C:attention}Straight{}",
-                    "and contains a {C:spades}Spade{} card, {C:hearts}Heart{} card",
-                    "{C:clubs}Club{} card and {C:diamonds}Diamond{} card"
+                    "and contains a {C:spades}Spade{}, {C:hearts}Heart{},",
+                    "{C:clubs}Club{} and {C:diamonds}Diamond{} card"
                 },
             },
             j_hamod_fools_arcana = {
@@ -124,7 +132,7 @@ return {
             v_hamod_mayhem = {
                 name = 'Mayhem',
                 text = {
-                    "{C:green}+#1#{} to {C:attention}Booster rerolls{}" 
+                    "{C:green}+#1#{} to {C:attention}Booster Reroll{}" 
                 }
             }
         },
@@ -200,14 +208,6 @@ return {
                     "Choose {C:attention}#1#{} of up to",
                     "{C:attention}#2#{C:enhanced} Vouchers{}",
                 },
-            },
-            tt_booster_reroll = {
-                name = 'Booster reroll',
-                text = {
-                    'Use {C:attention}Reroll{} or {C:attention}Redraw{} when opening',
-                    "a {C:tarot}Booster{} to reroll it's contents or swap your",
-                    'hand cards. Rerolls reset at the start of each {C:attention}Ante{}'
-                }
             }
         },
     },
