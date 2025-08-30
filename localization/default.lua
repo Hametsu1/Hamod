@@ -1,13 +1,5 @@
 return {
     descriptions = {
-        Back = {
-            b_hamod_booster_reroll_reroll = {
-                name = "Reroll Deck",
-                text = {
-                    "Start with {C:green}+1{} {C:attention}Booster Reroll{}"
-                }
-            }
-        },
         Planet = {
             c_hamod_planet0711B = {
                 name = "Planet O711-B",
@@ -20,6 +12,44 @@ return {
                 text = {
                     "Upgrade your last played {C:tarot,E:2}poker hand{} by {C:attention}#1#{} levels",
                     "{C:inactive}(#2#){}"
+                }
+            }
+        },
+        Tarot = {
+            c_hamod_redraw = {
+                name = 'Redraw',
+                text = {
+                    "{C:green}+#1#{} to {C:attention}Booster Redraw{}"
+                }
+            },
+            c_hamod_reflection = {
+                name = 'Reflection',
+                text = {
+                    "Converts rank of {C:attention}#1#{}",
+                    "selected card into {C:attention}#2#{}",
+                    "{C:inactive}(most common rank in current deck){}"
+                }
+            },
+        },
+        Spectral = {
+            c_hamod_reroll = {
+                name = 'Reroll',
+                text = {
+                    "{C:green}+#1#{} to {C:attention}Booster Reroll{}"
+                }
+            },
+            c_hamod_catalyst = {
+                name = 'Catalyst',
+                text = {
+                    "Add a {V:1}#1#{}",
+                    "to {C:attention}#2#{} selected",
+                    "card in your hand"
+                }
+            },
+            c_hamod_exile = {
+                name = 'Exile',
+                text = {
+                    "{C:green}+#1#{} to {C:attention}Banishes{}"
                 }
             }
         },
@@ -116,8 +146,8 @@ return {
                 text = {
                     "{C:inactive,s:0.9}#1#{} {s:0.8}/{} {C:enhanced,s:0.9}#2#{}",
                     "{C:inactive,s:0.6}(Next:{} {C:tarot,s:0.8,E:1}#3#{}{C:inactive,s:0.6}){}",
-                    "{s:0.75}Every hand,{} {C:attention,s:0.75}10%{} {s:0.75}of the scored chips{}",
-                    "{s:0.7}are{} {C:attention,s:0.7}deducted{} {s:0.7}and added to the internal buffer{}",
+                    "{s:0.8}Every hand,{} {C:attention,s:0.8}10%{} {s:0.8}of the scored chips{}",
+                    "{s:0.8}are{} {C:attention,s:0.8}deducted{} {s:0.8}and added to the internal buffer{}",
                 }
             }
         },
@@ -130,9 +160,36 @@ return {
                 }
             },
             v_hamod_mayhem = {
-                name = 'Mayhem',
+                name = 'Chaos',
                 text = {
-                    "{C:green}+#1#{} to {C:attention}Booster Reroll{}" 
+                    "All {C:attention}Consumables{} now share",
+                    "the same item pool"
+                }
+            },
+            v_hamod_exile = {
+                name = 'Exile',
+                text = {
+                    "{C:green}+#1#{} to {C:attention}Banishes{}" 
+                }
+            },
+            v_hamod_exile_plus = {
+                name = 'Exile Plus',
+                text = {
+                    "{C:green}+#1#{} to {C:attention}Banishes{}" 
+                }
+            },
+            v_hamod_repack = {
+                name = 'Repack',
+                text = {
+                    "{C:green}+#1#{} to {C:attention}Booster Reroll{}",
+                    "{C:green}+#2#{} to {C:attention}Booster Redraw{}",
+                }
+            },
+            v_hamod_repack_plus = {
+                name = 'Repack Plus',
+                text = {
+                    "{C:green}+#1#{} to {C:attention}Booster Reroll{}",
+                    "{C:green}+#2#{} to {C:attention}Booster Redraw{}",
                 }
             }
         },
@@ -140,10 +197,9 @@ return {
             hamod_catalyst_seal = {
                 name = 'Catalyst Seal',
                 text = {
-                    '{X:red,C:white}X#1#{} Mult',
-                    'Increases by {X:red,C:white}X#2#{} when scored',
-                    'Resets when {C:attention}discarded{} or',
-                    '{C:attention}in hand{} at the end of the round'
+                    '{X:mult,C:white}X#1#{} Mult',
+                    'Increases by {X:mult,C:white}X#2#{} for every',
+                    "{C:attention}round{} it's scored in"
                 }
             },
             p_hamod_legendary_joker = {
@@ -208,6 +264,13 @@ return {
                     "Choose {C:attention}#1#{} of up to",
                     "{C:attention}#2#{C:enhanced} Vouchers{}",
                 },
+            },
+            tt_hamod_banish = {
+                name = "Banishing",
+                text = {
+                    '{C:attention}Banished{} cards are removed from',
+                    'all item pools for the remainder of the game'
+                }
             }
         },
     },
@@ -216,6 +279,8 @@ return {
             hamod_catalyst_seal = 'Catalyst Seal',
         },
         dictionary = {
+            k_level_up = 'Claim',
+            k_keep = 'Keep',
             k_high_roller_destroy = 'Damn...',
             k_empty_pockets_increase = 'Cheapskate...',
             k_empty_pockets_reset = 'You fool...',

@@ -165,6 +165,11 @@ HAMOD = {
     }
 }
 
+function contains_flag(card, flag)
+    if not card or not flag or not card.config or not card.config.center or not card.config.center.flags then return false end
+    return card.config.center.flags[flag]
+end
+
 local include_table = {
     'jokers',
     'decks',
@@ -172,6 +177,8 @@ local include_table = {
     'planets',
     'vouchers',
     'seals',
+    'tarots',
+    'spectrals'
 }
 
 HAMOD.debug("Mod loaded")

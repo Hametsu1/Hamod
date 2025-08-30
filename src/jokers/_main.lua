@@ -1,3 +1,10 @@
+SMODS.Atlas{
+    key = 'HamodJokers',
+    path = 'Jokers.png',
+    px = 71,
+    py = 95
+}
+
 local joker_list = {
     'straight_shooter',
     'color_rush',
@@ -9,13 +16,6 @@ local joker_list = {
     'doppelganger',
     'coupon_clown',
     'siphon'
-}
-
-SMODS.Atlas{
-    key = 'HamodJokers',
-    path = 'Jokers.png',
-    px = 71,
-    py = 95
 }
 
 for i, entry in ipairs(joker_list) do

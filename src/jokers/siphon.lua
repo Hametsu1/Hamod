@@ -217,6 +217,68 @@ function hamod_siphon_redeem_reward(key)
     return true, ''
 end
 
+HAMOD_BUTTONS.register_group({
+    key = 'level_up_siphon',
+    get_config = function(card)
+        return {
+            align = 'tl',
+            offset = {x = 0.45, y = 0.95}
+        }
+    end
+})
+
+HAMOD_BUTTONS.register_button({
+    group = 'level_up_siphon',
+    use = function(card)
+        local reward_claimed, msg = hamod_siphon_redeem_reward(card.ability.extra.next_reward)
+        
+        if reward_claimed then
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    play_sound('tarot1')
+                    card:juice_up(0.3, 0.5)
+                    return true
+                end
+            }))
+
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.1,
+                func = function()
+                    hamod_siphon_reset(card)
+                    return true
+                end
+            }))
+            delay(0.5)
+
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.2,
+                func = function()
+                    G.jokers:unhighlight_all()
+                    return true
+                end
+            }))
+        end
+    end,
+    can_use = function(card)
+        return card.ability.extra.level_up_ready and hamod_siphon_check_requirements(card.ability.extra.next_reward)
+    end,
+    is_visible = function(card)
+        return card.config.center.key == 'j_hamod_siphon' and card.area == G.jokers
+    end,
+    get_styling = function(card)
+        return {
+            button_color = HEX('bd9140'),
+            text_scale = 0.4,
+            text = localize('k_level_up'),
+            padding = 0.1,
+            width = 1.45,
+            height = 0.62
+        }
+    end
+})
+
 SMODS.Joker {
     key = "siphon",
     pos = { x = 9, y = 0 },
@@ -226,7 +288,7 @@ SMODS.Joker {
     eternal_compat = false,
     perishable_compat = false,
     cost = 6,
-    config = { extra = { buffer_current = 0, buffer_max = 1000, factor = 0.1, next_reward = nil }, },
+    config = { extra = { buffer_current = 0, buffer_max = 1000, factor = 0.1, next_reward = nil, level_up_ready = false }, },
     discovered = true,
     loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.buffer_current, card.ability.extra.buffer_max, hamod_siphon_reward_string(card) } }
@@ -239,39 +301,14 @@ SMODS.Joker {
             local scale = math.sqrt(1 - card.ability.extra.factor)
             hand_chips = hand_chips * scale
             mult = mult * scale
+            card:juice_up(0.3, 0.5)
+        end
+
+        if not card.ability.extra.level_up_ready and card.ability.extra.buffer_current >= card.ability.extra.buffer_max and card.ability.extra.next_reward then
+            card.ability.extra.level_up_ready = true
             
-            return true
-        end
-
-        if context.after and context.cardarea == G.jokers and not context.blueprint then
-
-            if card.ability.extra.buffer_current >= card.ability.extra.buffer_max and card.ability.extra.next_reward then
-                local eval = function(card) return card.ability.extra.buffer_current == 0 and not G.RESET_JIGGLES end
-                juice_card_until(card, eval, true)
-            end
-
-            return {
-                message = localize('k_siphon_siphoned', card, G.C.RED)
-            }
-        end
-
-        if HAMOD.context.end_of_round(context, false) then
-
-            if card.ability.extra.buffer_current >= card.ability.extra.buffer_max and card.ability.extra.next_reward then
-                local reward_claimed, msg = hamod_siphon_redeem_reward(card.ability.extra.next_reward)
-                local returnObj
-                
-                if reward_claimed then
-                    hamod_siphon_reset(card)
-                    returnObj = localize('k_siphon_levelup', card, G.C.GREEN)
-                else
-                    returnObj = localize(msg, card, G.C.RED)
-                end
-                
-                return {
-                    message = returnObj
-                }
-            end
+            local eval = function(card) return card.ability.extra.level_up_ready == true end
+            juice_card_until(card, eval, true)
         end
     end,
     add_to_deck = function(self, card, from_debuff)
@@ -284,6 +321,7 @@ function hamod_siphon_calculate_buffer(mult)
 end
 
 function hamod_siphon_reset(card)
+    card.ability.extra.level_up_ready = false
     card.ability.extra.buffer_current = 0
     card.ability.extra.next_reward = pseudorandom_element(HAMOD.get_keys(hamod_siphon_rewards), pseudoseed('hamod_siphon' .. G.GAME.round_resets.ante))
     card.ability.extra.buffer_max = hamod_siphon_calculate_buffer(hamod_siphon_rewards[card.ability.extra.next_reward].multiplier)
