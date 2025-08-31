@@ -1,14 +1,13 @@
 SMODS.Booster {
     key = 'legendary_joker',
     config = { extra = 2, choose = 1 },
-    cost = 48,
+    cost = 44,
     weight = 0.05,
     atlas = "HamodBoosters",
     pos = { x = 0, y = 0 },
     discovered = true,
     kind = 'Buffoon',
     group_key = 'k_random_joker',
-    select_card = 'consumeables',
     loc_vars = function(self, info_queue, card)
         local cfg = (card and card.ability) or self.config
         return {
@@ -34,7 +33,7 @@ SMODS.Booster {
 SMODS.Booster {
     key = 'rare_joker',
     config = { extra = 2, choose = 1 },
-    cost = 24,
+    cost = 22,
     weight = 0.1,
     atlas = "HamodBoosters",
     pos = { x = 1, y = 0 },
@@ -66,7 +65,7 @@ SMODS.Booster {
 SMODS.Booster {
     key = 'uncommon_joker',
     config = { extra = 3, choose = 1 },
-    cost = 12,
+    cost = 10,
     weight = 0.5,
     atlas = "HamodBoosters",
     pos = { x = 2, y = 0 },

@@ -15,7 +15,8 @@ local joker_list = {
     'the_usual',
     'doppelganger',
     'coupon_clown',
-    'siphon'
+    'siphon',
+    'juicy_joker'
 }
 
 for i, entry in ipairs(joker_list) do

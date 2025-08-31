@@ -2,7 +2,7 @@ SMODS.Consumable {
     key = 'catalyst',
     set = 'Spectral',
     atlas = 'HamodConsumables',
-    pos = { x = 1, y = 0 },
+    pos = { x = 1, y = 2 },
     config = {extra = {seal = 'hamod_catalyst'}, max_highlighted = 1},
     discovered = true,
     loc_vars = function(self, info_queue, card)

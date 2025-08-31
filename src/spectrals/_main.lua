@@ -1,7 +1,6 @@
 local spectral_list = {
-    'reroll',
+    'fate',
     'catalyst',
-    'exile'
 }
 
 for i, entry in ipairs(spectral_list) do

@@ -1,8 +1,8 @@
 SMODS.Atlas{
     key = 'HamodSeals',
     path = 'Seals.png',
-    px = 40,
-    py = 40
+    px = 71,
+    py = 95
 }
 
 local seal_list = {

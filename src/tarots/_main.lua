@@ -1,6 +1,7 @@
 local tarot_list = {
-    'redraw',
-    'reflection',
+    'choice',
+    'mirror',
+    'offering'
 }
 
 for i, entry in ipairs(tarot_list) do

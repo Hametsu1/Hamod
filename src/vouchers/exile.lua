@@ -38,18 +38,9 @@ SMODS.Voucher {
     end
 }
 
-HAMOD_BUTTONS.register_group({
-    key = 'banish',
-    get_config = function(card)
-        return {
-            offset = {x = card.ability.consumeable and 0.45 or 0.41, y = 1},
-            align = 'tl'
-        }
-    end
-})
-
 HAMOD_BUTTONS.register_button({
-    group = 'banish',
+    group = 'hamod_left',
+    priority = -999,
     can_use = function(card)
         return G.GAME.banishes and G.GAME.banishes > 0 and not G.GAME.banned_keys[card.config.center.key]
     end,
@@ -70,7 +61,7 @@ HAMOD_BUTTONS.register_button({
     get_styling = function(card)
         return {
             button_color = G.C.RED,
-            text = 'Banish ('..G.GAME.banishes..')',
+            text = 'Banish('..G.GAME.banishes..')',
             height = 0,
             width = 1.8,
             text_scale = 0.4

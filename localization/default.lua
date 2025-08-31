@@ -16,24 +16,30 @@ return {
             }
         },
         Tarot = {
-            c_hamod_redraw = {
-                name = 'Redraw',
+            c_hamod_choice = {
+                name = 'Choice',
                 text = {
                     "{C:green}+#1#{} to {C:attention}Booster Redraw{}"
                 }
             },
-            c_hamod_reflection = {
-                name = 'Reflection',
+            c_hamod_mirror = {
+                name = 'Mirror',
                 text = {
                     "Converts rank of {C:attention}#1#{}",
                     "selected card into {C:attention}#2#{}",
                     "{C:inactive}(most common rank in current deck){}"
                 }
             },
+            c_hamod_offering = {
+                name = 'Offering',
+                text = {
+                    "{C:green}+#1#{} to {C:attention}Banishes{}"
+                }
+            }
         },
         Spectral = {
-            c_hamod_reroll = {
-                name = 'Reroll',
+            c_hamod_fate = {
+                name = 'Fate',
                 text = {
                     "{C:green}+#1#{} to {C:attention}Booster Reroll{}"
                 }
@@ -44,12 +50,6 @@ return {
                     "Add a {V:1}#1#{}",
                     "to {C:attention}#2#{} selected",
                     "card in your hand"
-                }
-            },
-            c_hamod_exile = {
-                name = 'Exile',
-                text = {
-                    "{C:green}+#1#{} to {C:attention}Banishes{}"
                 }
             }
         },
@@ -148,6 +148,15 @@ return {
                     "{C:inactive,s:0.6}(Next:{} {C:tarot,s:0.8,E:1}#3#{}{C:inactive,s:0.6}){}",
                     "{s:0.8}Every hand,{} {C:attention,s:0.8}10%{} {s:0.8}of the scored chips{}",
                     "{s:0.8}are{} {C:attention,s:0.8}deducted{} {s:0.8}and added to the internal buffer{}",
+                }
+            },
+            j_hamod_juicy_joker = {
+                name = "Juicy Joker",
+                text = {
+                    'Scored cards with rank {C:attention}6{} or {C:attention}9{}',
+                    'give {C:mult}+#1#{} Mult and {C:chips}+#2#{} Chips',
+                    'If the played poker hand is a {C:attention}Nice! Nice!{},',
+                    'level it up and receive {X:mult,C:white}X#3#{} Mult'
                 }
             }
         },
@@ -268,13 +277,28 @@ return {
             tt_hamod_banish = {
                 name = "Banishing",
                 text = {
-                    '{C:attention}Banished{} cards are removed from',
-                    'all item pools for the remainder of the game'
+                    '{C:attention}Banished{} cards are removed',
+                    'from all item pools for the',
+                    'remainder of the game'
                 }
             }
         },
     },
     misc = {
+        poker_hands = {
+            hamod_nice = 'Nice!',
+            hamod_nice_nice = 'Nice! Nice!'
+        },
+        poker_hand_descriptions = {
+            hamod_nice = {
+                'Two cards, where the first card is a 6',
+                'and the second is a 9'
+            },
+            hamod_nice_nice = {
+                'A two-pair, where the first and third cards are 6',
+                'and the second and fourth are 9'
+            }
+        },
         labels = {
             hamod_catalyst_seal = 'Catalyst Seal',
         },

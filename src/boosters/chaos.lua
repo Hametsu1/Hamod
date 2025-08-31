@@ -36,7 +36,7 @@ SMODS.Booster {
 SMODS.Booster {
     key = 'chaos_medium',
     config = { extra = 4, choose = 1 },
-    cost = 10,
+    cost = 9,
     weight = 0.08,
     atlas = "HamodBoosters",
     pos = { x = 3, y = 0 },
@@ -71,7 +71,7 @@ SMODS.Booster {
 SMODS.Booster {
     key = 'chaos_large',
     config = { extra = 5, choose = 2 },
-    cost = 13,
+    cost = 11,
     weight = 0.06,
     atlas = "HamodBoosters",
     pos = { x = 3, y = 0 },

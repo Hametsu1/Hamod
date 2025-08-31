@@ -1,8 +1,8 @@
 SMODS.Consumable {
-    key = 'exile',
-    set = 'Spectral',
+    key = 'offering',
+    set = 'Tarot',
     atlas = 'HamodConsumables',
-    pos = { x = 1, y = 0 },
+    pos = { x = 1, y = 1 },
     config = {extra = {banishes = 1}},
     discovered = true,
     loc_vars = function(self, info_queue, card)

@@ -218,17 +218,17 @@ function hamod_siphon_redeem_reward(key)
 end
 
 HAMOD_BUTTONS.register_group({
-    key = 'level_up_siphon',
+    key = 'hamod_left',
     get_config = function(card)
         return {
-            align = 'tl',
-            offset = {x = 0.45, y = 0.95}
+            align = 'cl',
+            offset = {x = 0.4, y = 0}
         }
     end
 })
 
 HAMOD_BUTTONS.register_button({
-    group = 'level_up_siphon',
+    group = 'hamod_left',
     use = function(card)
         local reward_claimed, msg = hamod_siphon_redeem_reward(card.ability.extra.next_reward)
         

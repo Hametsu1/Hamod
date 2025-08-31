@@ -1,13 +1,13 @@
 SMODS.Consumable {
-    key = 'reroll',
-    set = 'Spectral',
+    key = 'choice',
+    set = 'Tarot',
     atlas = 'HamodConsumables',
-    pos = { x = 1, y = 0 },
-    config = {extra = {rerolls = 1}},
+    pos = { x = 0, y = 1 },
+    config = {extra = {redraws = 1}},
     discovered = true,
     loc_vars = function(self, info_queue, card)
-        info_queue[#info_queue+1] = {key = "tt_booster_reroll", set = "Other"}
-        return { vars = { card.ability.extra.rerolls} }
+        info_queue[#info_queue+1] = {key = "tt_booster_redraw", set = "Other"}
+        return { vars = { card.ability.extra.redraws } }
     end,
     use = function(self, card, area, copier)
         G.E_MANAGER:add_event(Event({
@@ -15,7 +15,7 @@ SMODS.Consumable {
             delay = 0.4,
             func = function()
                 play_sound('timpani')
-                add_booster_rerolls({rerolls = card.ability.extra.rerolls})
+                add_booster_rerolls({redraws = card.ability.extra.redraws})
                 card:juice_up(0.3, 0.5)
                 return true
             end
@@ -24,5 +24,5 @@ SMODS.Consumable {
     end,
     can_use = function(self, card)
         return true
-    end,
+    end
 }

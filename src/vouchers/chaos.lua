@@ -21,6 +21,7 @@ SMODS.Voucher {
 HAMOD_BUTTONS.register_group({
     key = 'select_in_booster',
     overwrites = 'use_button',
+    standalone = true,
     is_visible = function(card)
         return card.ability.consumeable and card.area == G.pack_cards and (G.GAME.boosters_allow_keep_consumeables or contains_flag(card, 'allow_keep'))
     end,
@@ -30,7 +31,7 @@ HAMOD_BUTTONS.register_group({
             definition = custom_booster_ui(card),
             config = {
                 align = "bmi",
-                offset = {x=0,y=0.3},
+                offset = {x=0,y=0.35},
                 parent = card
             }
         }

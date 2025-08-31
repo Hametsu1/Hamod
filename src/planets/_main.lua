@@ -1,8 +1,8 @@
 SMODS.Atlas{
     key = 'HamodConsumables',
     path = 'Consumables.png',
-    px = 65,
-    py = 94
+    px = 71,
+    py = 95
 }
 
 local planet_list = {

@@ -170,6 +170,35 @@ function contains_flag(card, flag)
     return card.config.center.flags[flag]
 end
 
+function visualize_hand_type(hand)
+    local cardarea = CardArea(
+        0,
+        0,
+        2.85 * G.CARD_W,
+        0.75 * G.CARD_H,
+        {card_limit = 4, type = 'title', highlight_limit = 0}
+    )
+    for k, v in ipairs(example) do
+        local card = Card(
+        0,
+        0,
+        0.5 * G.CARD_W,
+        0.5 * G.CARD_H,
+        G.P_CARDS[v[1]],
+        G.P_CENTERS.c_base)
+        if v[2] then card:juice_up(0.3, 0.2) end
+        if k == 1 then play_sound('paper1', 0.95 + math.random() * 0.1, 0.3) end
+        ease_value(card.T, 'scale', v[2] and 0.25 or -0.15, nil, 'REAL', true, 0.2)
+        cardarea:emplace(card)
+    end
+
+    return {n=G.UIT.R, config = {align = "cm", colour = G.C.CLEAR, r = 0.0}, nodes={
+        {n=G.UIT.C, config = {align = "cm"}, nodes={
+            {n=G.UIT.O, config = {object = cardarea}}
+        }}
+    }}
+end
+
 local include_table = {
     'jokers',
     'decks',
@@ -178,7 +207,8 @@ local include_table = {
     'vouchers',
     'seals',
     'tarots',
-    'spectrals'
+    'spectrals',
+    'handtypes'
 }
 
 HAMOD.debug("Mod loaded")

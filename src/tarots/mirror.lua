@@ -1,8 +1,8 @@
 SMODS.Consumable {
-    key = 'reflection',
+    key = 'mirror',
     set = 'Tarot',
     atlas = 'HamodConsumables',
-    pos = { x = 1, y = 0 },
+    pos = { x = 2, y = 1 },
     config = {max_highlighted = 1},
     discovered = true,
     loc_vars = function(self, info_queue, card)
